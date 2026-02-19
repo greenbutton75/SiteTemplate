@@ -48,7 +48,8 @@ apt-get install -y -qq curl git build-essential adduser
 # 2. PYTHON ЗАВИСИМОСТИ
 # =============================================================================
 echo "[2/7] Installing Python dependencies..."
-pip install -q -U pip setuptools wheel numpy
+export PIP_BREAK_SYSTEM_PACKAGES=1
+pip install -q -U pip setuptools numpy
 pip install -q \
     fastapi \
     uvicorn[standard] \
