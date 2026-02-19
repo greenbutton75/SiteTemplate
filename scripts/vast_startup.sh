@@ -13,9 +13,10 @@ mkdir -p $LOG_DIR $WORKSPACE/zoo
 # =============================================================================
 # ПОДХВАТИТЬ ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ ИЗ VAST.AI TEMPLATE
 # =============================================================================
-env | grep -E 'STITCH_API_KEY|HF_TOKEN' > /etc/webgen.env
+# Не падаем, если переменных еще нет в окружении
+env | grep -E 'STITCH_API_KEY|HF_TOKEN' > /etc/webgen.env || true
 set -a
-source /etc/webgen.env
+source /etc/webgen.env 2>/dev/null || true
 set +a
 
 # Проверка обязательных переменных
@@ -39,6 +40,7 @@ apt-get install -y -qq curl git build-essential adduser
 # 2. PYTHON ЗАВИСИМОСТИ
 # =============================================================================
 echo "[2/7] Installing Python dependencies..."
+pip install -q -U pip setuptools wheel numpy
 pip install -q \
     fastapi \
     uvicorn[standard] \
@@ -51,18 +53,14 @@ pip install -q \
 # 3. УСТАНОВКА VLLM
 # =============================================================================
 echo "[3/7] Installing vLLM..."
-if [ ! -d "$WORKSPACE/vllm" ]; then
-    git clone https://github.com/vllm-project/vllm.git $WORKSPACE/vllm
-fi
-cd $WORKSPACE/vllm
-VLLM_USE_PRECOMPILED=1 pip install --editable . -q
-cd $WORKSPACE
+pip install -q -U vllm
 
 # =============================================================================
 # 4. УСТАНОВКА TRANSFORMERS (последняя из git)
 # =============================================================================
 echo "[4/7] Installing latest transformers..."
-pip install -q git+https://github.com/huggingface/transformers.git
+pip install -q -U git+https://github.com/huggingface/transformers.git
+pip install -q -U tokenizers accelerate
 
 # =============================================================================
 # 5. СОЗДАНИЕ DEV ПОЛЬЗОВАТЕЛЯ И УСТАНОВКА NODE / CLAUDE CODE
@@ -162,10 +160,11 @@ echo "[setup] webgen_template ready."
 echo "[run] Starting vLLM server (GLM-4.7-Flash, 2 GPUs)..."
 
 HF_HOME="$WORKSPACE/models/" nohup vllm serve zai-org/GLM-4.7-Flash \
-    --max-model-len 131072 \
+    --max-model-len 8192 \
+    --gpu-memory-utilization 0.95 \
     --tensor-parallel-size 2 \
-    --speculative-config.method mtp \
-    --speculative-config.num_speculative_tokens 1 \
+    --disable-custom-all-reduce \
+    --enforce-eager \
     --tool-call-parser glm47 \
     --reasoning-parser glm45 \
     --enable-auto-tool-choice \
