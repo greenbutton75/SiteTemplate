@@ -138,6 +138,13 @@ def start(send_request: SendRequest):
         'export HOME=/home/dev && export NVM_DIR="$HOME/.nvm" && '
         '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
     )
+    ccr_max_tokens = os.environ.get("CCR_MAX_TOKENS", "2048")
+    ccr_env = (
+        f'export ANTHROPIC_MAX_TOKENS={ccr_max_tokens} && '
+        f'export ANTHROPIC_MAX_COMPLETION_TOKENS={ccr_max_tokens} && '
+        f'export MAX_TOKENS={ccr_max_tokens} && '
+        f'export MAX_COMPLETION_TOKENS={ccr_max_tokens}'
+    )
 
     with open(log_path, "wb") as log_file:
         proc = subprocess.Popen(
@@ -147,7 +154,7 @@ def start(send_request: SendRequest):
                 "-s",
                 "/bin/bash",
                 "-c",
-                f'{nvm_setup} && NODE_NO_WARNINGS=1 ccr code '
+                f'{nvm_setup} && {ccr_env} && NODE_NO_WARNINGS=1 ccr code '
                 '--dangerously-skip-permissions '
                 '--verbose '
                 '--system-prompt-file task.txt '
