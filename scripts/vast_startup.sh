@@ -9,11 +9,14 @@ set -e
 WORKSPACE=/workspace
 LOG_DIR=$WORKSPACE/logs
 mkdir -p $LOG_DIR $WORKSPACE/zoo
+STARTUP_LOG=$LOG_DIR/startup.log
+exec > >(tee -a "$STARTUP_LOG") 2>&1
 
 # =============================================================================
 # ПОДХВАТИТЬ ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ ИЗ VAST.AI TEMPLATE
 # =============================================================================
 # Сначала пробуем вытянуть из PID 1 (Vast часто кладет env туда)
+> /etc/webgen.env
 if [ -r /proc/1/environ ]; then
     tr '\0' '\n' </proc/1/environ | grep -E 'STITCH_API_KEY|HF_TOKEN' > /etc/webgen.env || true
 fi
