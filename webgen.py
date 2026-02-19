@@ -29,15 +29,11 @@ BASE_DIR = '/workspace/'
 
 def zip_directory_to_bytes(dir_path: str) -> io.BytesIO:
     zip_buffer = io.BytesIO()
-    SKIP = {'ipynb_checkpoints', 'process.pid', 'task.txt', 'README.md', 'ccr.log'}
+    index_path = os.path.join(dir_path, "index.html")
+    if not os.path.isfile(index_path):
+        raise FileNotFoundError("index.html not found in website directory")
     with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
-        for root, _, files in os.walk(dir_path):
-            for file in files:
-                full_path = os.path.join(root, file)
-                if any(s in full_path for s in SKIP):
-                    continue
-                arcname = os.path.relpath(full_path, start=dir_path)
-                zipf.write(full_path, arcname)
+        zipf.write(index_path, "index.html")
     zip_buffer.seek(0)
     return zip_buffer
 
