@@ -96,12 +96,19 @@ def start(send_request: SendRequest):
     save_snapshot_and_update_task(send_request.snapshot, WEBSITE_DIR)
 
     log_path = os.path.join(WEBSITE_DIR, "ccr.log")
-    nvm_setup = 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
+    nvm_setup = (
+        'export HOME=/home/dev && export NVM_DIR="$HOME/.nvm" && '
+        '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
+    )
 
     with open(log_path, "wb") as log_file:
         proc = subprocess.Popen(
             [
-                "bash", "-lc",
+                "su",
+                "dev",
+                "-s",
+                "/bin/bash",
+                "-c",
                 f'{nvm_setup} && NODE_NO_WARNINGS=1 ccr code '
                 '--dangerously-skip-permissions '
                 '--verbose '
@@ -112,7 +119,6 @@ def start(send_request: SendRequest):
             stdout=log_file,
             stderr=subprocess.STDOUT,
             start_new_session=True,
-            user='dev',
         )
 
     meta = {
