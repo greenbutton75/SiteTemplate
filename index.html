@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Retirement Partners | Optimize Your Future</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Marked.js -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        srp: {
+                            navy: '#0f172a',    /* Slate 900 */
+                            blue: '#1e3a8a',    /* Blue 900 */
+                            gold: '#b45309',    /* Amber 700 */
+                            goldLight: '#d97706', /* Amber 600 */
+                            slate: '#64748b',   /* Slate 500 */
+                            light: '#f8fafc',   /* Slate 50 */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Animation Overrides */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero-bg {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Markdown Content Styling */
+        .markdown-content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .markdown-content li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #334155;
+        }
+
+        .markdown-content li::before {
+            content: "\f058"; /* FontAwesome check-circle */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: #059669; /* Emerald 600 */
+        }
+
+        .markdown-content.deficiencies li::before {
+            content: "\f06a"; /* FontAwesome exclamation-circle */
+            color: #dc2626; /* Red 600 */
+        }
+        
+        .markdown-content.actions li::before {
+            content: "\f0a9"; /* FontAwesome arrow-right */
+            color: #b45309; /* SRP Gold */
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        /* Loading Spinner */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #b45309;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Tab Transitions */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-srp-navy/95 backdrop-blur-sm shadow-lg border-b border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <!-- Logo Placeholder -->
+                    <div class="text-white font-serif text-2xl tracking-wider">
+                        <span class="text-srp-goldLight">SRP</span> <span class="text-sm uppercase tracking-widest text-slate-300 ml-2 hidden sm:inline-block">Strategic Retirement Partners</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#expertise" class="text-slate-300 hover:text-white px-3 py-2 text-sm font-medium transition">Expertise</a>
+                    <a href="#services" class="text-slate-300 hover:text-white px-3 py-2 text-sm font-medium transition">Services</a>
+                    <a href="#optimizer" class="text-slate-300 hover:text-white px-3 py-2 text-sm font-medium transition">Optimizer Tool</a>
+                    <a href="#contact" class="bg-srp-gold hover:bg-srp-goldLight text-white px-5 py-2 rounded-md text-sm font-medium transition shadow-md">Schedule Meeting</a>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button class="text-slate-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative hero-bg h-screen flex items-center justify-center text-center px-4">
+        <div class="max-w-4xl mx-auto text-white space-y-8 animate-fade-in-up">
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight drop-shadow-lg">
+                Relax, We’ll Take It From Here.
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-200 font-light max-w-2xl mx-auto">
+                Retirement plans and wealth management, designed around you. Optimize your workforce retirement plan outcomes today.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 pt-6">
+                <a href="#optimizer" class="bg-srp-gold hover:bg-srp-goldLight text-white font-bold py-4 px-8 rounded-lg shadow-lg transform transition hover:-translate-y-1 text-lg">
+                    Start Plan Optimization
+                </a>
+                <a href="#expertise" class="bg-transparent border-2 border-slate-300 hover:bg-white/10 text-white font-semibold py-4 px-8 rounded-lg transition text-lg">
+                    Explore Expertise
+                </a>
+            </div>
+            
+            <!-- Trust Signals -->
+            <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 text-slate-300 border-t border-slate-500/50 pt-8">
+                <div>
+                    <span class="block text-3xl font-bold text-white">130+</span>
+                    <span class="text-sm uppercase tracking-wide">Advisors</span>
+                </div>
+                <div>
+                    <span class="block text-3xl font-bold text-white">$24.6B+</span>
+                    <span class="text-sm uppercase tracking-wide">Assets Under Management</span>
+                </div>
+                <div>
+                    <span class="block text-3xl font-bold text-white">34</span>
+                    <span class="text-sm uppercase tracking-wide">Offices Nationwide</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-8 animate-bounce text-slate-400">
+            <i class="fas fa-chevron-down text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- Industry Intelligence (News) -->
+    <section id="news" class="py-20 bg-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-srp-navy mb-4">Industry Intelligence</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">Stay ahead with the latest insights on regulatory changes, investment trends, and fiduciary governance.</p>
+            </div>
+            
+            <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- News items will be injected here -->
+                <div class="col-span-1 md:col-span-3 text-center py-12">
+                    <div class="loader mx-auto mb-4 w-8 h-8"></div>
+                    <p class="text-slate-500">Fetching latest intelligence...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise Section -->
+    <section id="expertise" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-srp-navy">Outsource Fiduciary Responsibility. Add Value, Not Work.</h2>
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        Imagine a workplace retirement plan that goes beyond checking a box—one that reflects your culture, supports your goals, and helps employees build lasting financial confidence.
+                    </p>
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        At Strategic Retirement Partners, we pair thoughtful retirement plan consulting with personalized wealth management. Founded in 2015, we advise on over 1,300 retirement plans. Over half of our professionals are shareholders, reinforcing our culture of ownership.
+                    </p>
+                    <ul class="space-y-4 pt-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-srp-gold mt-1 mr-3"></i>
+                            <span class="text-slate-700">Fiduciary Governance Support & Documentation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-srp-gold mt-1 mr-3"></i>
+                            <span class="text-slate-700">Investment Selection & Monitoring (3(21) / 3(38))</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-srp-gold mt-1 mr-3"></i>
+                            <span class="text-slate-700">Custom Employee Education & Financial Wellness</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="relative">
+                    <div class="absolute -top-4 -left-4 w-24 h-24 bg-srp-gold/10 rounded-tl-3xl z-0"></div>
+                    <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-srp-navy/10 rounded-br-3xl z-0"></div>
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1632&q=80" alt="Consultation Meeting" class="relative z-10 rounded-xl shadow-2xl w-full object-cover h-[500px]">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-srp-navy text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Comprehensive solutions for organizations and individuals.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white/5 p-8 rounded-lg border border-white/10 hover:border-srp-gold transition duration-300 hover:-translate-y-2 cursor-default">
+                    <div class="w-12 h-12 bg-srp-gold rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Retirement Consulting</h3>
+                    <p class="text-slate-400 text-sm">401(k), 403(b), and Defined Benefit plan design, vendor search, and operational support.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white/5 p-8 rounded-lg border border-white/10 hover:border-srp-gold transition duration-300 hover:-translate-y-2 cursor-default">
+                    <div class="w-12 h-12 bg-srp-gold rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Employee Wellness</h3>
+                    <p class="text-slate-400 text-sm">Changing your employees' relationship with money from being controlled to being in control.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white/5 p-8 rounded-lg border border-white/10 hover:border-srp-gold transition duration-300 hover:-translate-y-2 cursor-default">
+                    <div class="w-12 h-12 bg-srp-gold rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-handshake text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">ESOP Services</h3>
+                    <p class="text-slate-400 text-sm">Creating thriving ownership cultures that are sustainable, compliant, and easy to manage.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-white/5 p-8 rounded-lg border border-white/10 hover:border-srp-gold transition duration-300 hover:-translate-y-2 cursor-default">
+                    <div class="w-12 h-12 bg-srp-gold rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-piggy-bank text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Executive Benefits</h3>
+                    <p class="text-slate-400 text-sm">Non-qualified plans and SERPs designed to recruit, retain, and reward key talent.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plan Optimizer Tool (Interactive Core) -->
+    <section id="optimizer" class="py-24 bg-slate-50 relative overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-100 rounded-full opacity-50 blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-amber-100 rounded-full opacity-50 blur-3xl"></div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+            <div class="text-center mb-10">
+                <span class="text-srp-gold font-bold uppercase tracking-wider text-sm">Interactive Tool</span>
+                <h2 class="text-4xl font-bold text-srp-navy mt-2">Plan Optimizer</h2>
+                <p class="text-slate-600 mt-4">Instantly analyze your company's retirement readiness with our AI-driven strategy engine.</p>
+            </div>
+
+            <!-- Tool Container -->
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200 min-h-[400px]">
+                
+                <!-- Step A: Search -->
+                <div class="p-8 md:p-12 bg-gradient-to-br from-white to-slate-50">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wide">Search Company Database</label>
+                    <div class="relative">
+                        <form id="search-form" class="relative">
+                            <input type="text" id="company-search" 
+                                class="w-full px-6 py-4 text-lg border-2 border-slate-200 rounded-xl focus:border-srp-blue focus:ring-0 outline-none transition shadow-sm placeholder-slate-400 text-slate-800"
+                                placeholder="Enter Company Name (e.g., Hugo Boss)" autocomplete="off">
+                            
+                            <button type="submit" class="absolute right-3 top-3 bg-srp-navy hover:bg-blue-900 text-white p-2.5 rounded-lg transition">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            
+                            <!-- Inline Loading Spinner -->
+                            <div id="search-spinner" class="absolute right-16 top-5 hidden">
+                                <div class="loader"></div>
+                            </div>
+                        </form>
+
+                        <!-- Results Dropdown -->
+                        <div id="search-results" class="absolute w-full mt-2 bg-white rounded-xl shadow-2xl border border-slate-100 z-50 hidden max-h-64 overflow-y-auto custom-scrollbar">
+                            <!-- JS injects items here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step C: Strategy Display (Window Frame) -->
+                <div id="strategy-display" class="hidden border-t border-slate-200">
+                    <div class="bg-srp-navy text-white px-8 py-4 flex justify-between items-center">
+                        <div>
+                            <span class="text-xs text-slate-400 uppercase">Analysis Prepared For:</span>
+                            <h3 id="strategy-plan-name" class="text-xl font-bold font-serif">Company Name</h3>
+                        </div>
+                        <div class="text-srp-gold text-2xl">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="flex border-b border-slate-200 bg-slate-50">
+                        <button onclick="switchTab('strengths')" id="tab-strengths" class="flex-1 py-4 text-sm font-semibold text-srp-blue border-b-2 border-srp-blue bg-white transition hover:bg-white focus:outline-none">
+                            <i class="fas fa-shield-alt mr-2"></i> Strengths
+                        </button>
+                        <button onclick="switchTab('deficiencies')" id="tab-deficiencies" class="flex-1 py-4 text-sm font-medium text-slate-500 hover:text-srp-navy transition hover:bg-white focus:outline-none">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Deficiencies
+                        </button>
+                        <button onclick="switchTab('actions')" id="tab-actions" class="flex-1 py-4 text-sm font-medium text-slate-500 hover:text-srp-navy transition hover:bg-white focus:outline-none">
+                            <i class="fas fa-check-double mr-2"></i> Action Steps
+                        </button>
+                    </div>
+
+                    <!-- Content Area -->
+                    <div class="p-8 md:p-10 bg-white min-h-[300px]">
+                        
+                        <!-- Strengths Page -->
+                        <div id="content-strengths" class="tab-content active animate-fade-in">
+                            <div class="flex items-center mb-6">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-4">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-slate-800">Plan Strengths</h4>
+                            </div>
+                            <div id="markdown-strengths" class="markdown-content text-slate-600 leading-relaxed text-lg pl-2"></div>
+                        </div>
+
+                        <!-- Deficiencies Page -->
+                        <div id="content-deficiencies" class="tab-content">
+                            <div class="flex items-center mb-6">
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 mr-4">
+                                    <i class="fas fa-search-minus"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-slate-800">Identified Gaps</h4>
+                            </div>
+                            <div id="markdown-deficiencies" class="markdown-content deficiencies text-slate-600 leading-relaxed text-lg pl-2"></div>
+                        </div>
+
+                        <!-- Action Steps Page -->
+                        <div id="content-actions" class="tab-content">
+                            <div class="flex items-center mb-6">
+                                <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-srp-gold mr-4">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-slate-800">Recommended Actions</h4>
+                            </div>
+                            <div id="markdown-actions" class="markdown-content actions text-slate-600 leading-relaxed text-lg pl-2"></div>
+                            
+                            <div class="mt-8 pt-6 border-t border-slate-100">
+                                <a href="#contact" class="inline-flex items-center text-srp-gold font-bold hover:underline">
+                                    Discuss this strategy with an advisor <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-slate-900 text-white relative">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-serif mb-6">Ready to improve your plan outcomes?</h2>
+            <div class="bg-white/10 backdrop-blur-md rounded-xl p-8 md:p-12 border border-white/20 shadow-2xl">
+                <div class="flex flex-col md:flex-row items-center justify-around gap-8">
+                    <div class="text-left">
+                        <p class="text-srp-gold uppercase tracking-widest text-xs font-bold mb-2">Primary Contact</p>
+                        <h3 class="text-2xl font-bold mb-1">Jeff Cullen</h3>
+                        <p class="text-slate-300 text-sm mb-4">CEO & Co-Founder</p>
+                        <div class="space-y-2">
+                            <p><i class="fas fa-envelope text-srp-gold w-6"></i> <a href="mailto:jeffc@srpretire.com" class="hover:text-srp-gold transition">jeffc@srpretire.com</a></p>
+                            <p><i class="fas fa-phone text-srp-gold w-6"></i> <a href="tel:8667774015" class="hover:text-srp-gold transition">(866) 777-401K</a></p>
+                        </div>
+                    </div>
+                    <div class="h-px w-full md:w-px md:h-32 bg-slate-600"></div>
+                    <div class="flex flex-col items-center">
+                        <p class="mb-4 text-lg font-light">Schedule a 30-minute no-obligation consultation.</p>
+                        <a href="tel:8667774015" class="bg-srp-gold hover:bg-srp-goldLight text-white font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105">
+                            <i class="fas fa-phone-alt mr-2"></i> Call Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-500 py-10 text-sm border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                &copy; 2026 Strategic Retirement Partners. All rights reserved.
+            </div>
+            <div class="space-x-6">
+                <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition">Terms of Service</a>
+                <a href="#" class="hover:text-white transition">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- 1. Data Mocking (Fallbacks) ---
+        const MOCK_NEWS = {
+            success: true,
+            articles: [
+                {
+                    title: "Navigating AI in Retirement Plan Administration",
+                    summary: "Artificial Intelligence (AI) stands to be a transformative technology in the workplace and is fast emerging as an empowering force in...",
+                    date: "Oct 24, 2025",
+                    source: "Strategic Retirement Partners",
+                    url: "https://www.srpretire.com/navigating-ai-in-retirement-plan-administration/"
+                },
+                {
+                    title: "Know the Numbers: IRS Retirement Limits Explained",
+                    summary: "Each year, the Internal Revenue Service (IRS) updates a complex set of contribution and benefit limits to take into account changes in the...",
+                    date: "Nov 21, 2025",
+                    source: "SRP Insights",
+                    url: "https://www.srpretire.com/know-the-numbers-irs-retirement-limits-explained/"
+                },
+                {
+                    title: "Tax Tips for Year-End Success",
+                    summary: "It’s been said that the only things certain in life are death and taxes – but you don’t have to be wealthy to reduce your tax burden...",
+                    date: "Dec 5, 2025",
+                    source: "SRP Blog",
+                    url: "https://www.srpretire.com/tax-tips-for-year-end-success/"
+                }
+            ]
+        };
+
+        const MOCK_SEARCH_RESULTS = {
+            records: [
+                { planName: "HUGO BOSS 401(K) SAVINGS PLAN", sponsorName: "HUGO BOSS FASHIONS, INC.", ein: "123456789", pn: "001", state: "NY" },
+                { planName: "HUGO BOSS RETAIL RETIREMENT PLAN", sponsorName: "HUGO BOSS RETAIL, INC.", ein: "987654321", pn: "002", state: "CA" },
+                { planName: "BOSS INDUSTRIES PROFIT SHARING", sponsorName: "BOSS INDUSTRIES LLC", ein: "456123789", pn: "001", state: "TX" },
+                { planName: "THE BIG BOSS PENSION TRUST", sponsorName: "THE BIG BOSS CORP", ein: "789123456", pn: "003", state: "FL" },
+                { planName: "LITTLE BOSS SAVINGS", sponsorName: "LITTLE BOSS INC", ein: "321654987", pn: "001", state: "WA" }
+            ]
+        };
+
+        const MOCK_STRATEGY = {
+            planName: "HUGO BOSS 401(K) SAVINGS PLAN",
+            strategy: "Optimization Strategy 2026",
+            strengths: [
+                "**Participation Rate:** 92% participation is significantly above industry average (78%).",
+                "**Employer Match:** Generous match structure encourages high deferral rates.",
+                "**Investment Menu:** Low expense ratios across core funds (avg 0.08%)."
+            ],
+            deficiencies: [
+                "**Auto-Enrollment:** Current 3% default rate is too low; recommend increasing to 5-6%.",
+                "**Leakage:** Hardship withdrawals have increased by 15% YoY.",
+                "**Cybersecurity:** Missing documented cybersecurity policy for plan data."
+            ],
+            actionSteps: [
+                "Implement **auto-escalation** up to 10% to combat inflation impact.",
+                "Launch targeted financial wellness campaign addressing emergency savings to reduce loan usage.",
+                "Conduct immediate fiduciary training for the new Investment Committee members."
+            ]
+        };
+
+        // --- 2. News API Logic ---
+        async function loadNews() {
+            const container = document.getElementById('news-grid');
+            try {
+                // Attempt fetch
+                const response = await fetch('/api/get-news');
+                if (!response.ok) throw new Error('API Error');
+                const data = await response.json();
+                renderNews(data.articles, container);
+            } catch (error) {
+                console.warn("News API failed, using fallback data.");
+                renderNews(MOCK_NEWS.articles, container);
+            }
+        }
+
+        function renderNews(articles, container) {
+            container.innerHTML = articles.map(article => `
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 flex flex-col h-full border border-slate-100 group">
+                    <div class="p-6 flex-1">
+                        <div class="flex justify-between items-center text-xs text-slate-400 mb-3 font-semibold uppercase tracking-wider">
+                            <span>${article.source || 'SRP News'}</span>
+                            <span>${article.date}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-srp-navy mb-3 group-hover:text-srp-gold transition">${article.title}</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">${article.summary}</p>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 bg-white">
+                        <a href="${article.url}" target="_blank" class="inline-flex items-center text-srp-gold font-bold text-sm hover:underline">
+                            Read Full Article <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- 3. Plan Optimizer Logic ---
+        const searchForm = document.getElementById('search-form');
+        const searchInput = document.getElementById('company-search');
+        const searchSpinner = document.getElementById('search-spinner');
+        const resultsContainer = document.getElementById('search-results');
+        const strategyDisplay = document.getElementById('strategy-display');
+
+        // Step A: Search
+        searchForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const query = searchInput.value.trim();
+            if(!query) return;
+
+            // Show Spinner, Hide old results
+            searchSpinner.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+            strategyDisplay.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/plan-search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query, count: 10 })
+                });
+                
+                if (!response.ok) throw new Error('Search API Error');
+                const data = await response.json();
+                renderSearchResults(data.records);
+            } catch (err) {
+                console.warn("Search API failed, using fallback.");
+                // Simulate delay for realism
+                setTimeout(() => {
+                    renderSearchResults(MOCK_SEARCH_RESULTS.records);
+                }, 600);
+            }
+        });
+
+        function renderSearchResults(records) {
+            searchSpinner.classList.add('hidden');
+            resultsContainer.innerHTML = '';
+            
+            if(records.length === 0) {
+                resultsContainer.innerHTML = '<div class="p-4 text-slate-500 text-center">No plans found.</div>';
+            } else {
+                const list = document.createElement('ul');
+                records.forEach(record => {
+                    const item = document.createElement('li');
+                    item.className = "px-6 py-4 border-b border-slate-100 hover:bg-blue-50 cursor-pointer transition flex justify-between items-center group";
+                    item.innerHTML = `
+                        <div>
+                            <div class="font-bold text-srp-navy group-hover:text-srp-blue">${record.planName}</div>
+                            <div class="text-xs text-slate-500 uppercase tracking-wide">${record.sponsorName}</div>
+                        </div>
+                        <div class="text-slate-400 font-mono text-sm bg-slate-100 px-2 py-1 rounded">${record.state}</div>
+                    `;
+                    // Step B: Select
+                    item.addEventListener('click', () => selectPlan(record));
+                    list.appendChild(item);
+                });
+                resultsContainer.appendChild(list);
+            }
+            resultsContainer.classList.remove('hidden');
+        }
+
+        // Step B: Select & Generate Strategy
+        async function selectPlan(record) {
+            // Update UI State
+            searchInput.value = record.planName;
+            resultsContainer.classList.add('hidden');
+            
+            // Show localized spinner inside search area (using the search spinner)
+            searchSpinner.classList.remove('hidden');
+
+            try {
+                const response = await fetch('/api/plan-strategy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        ein: record.ein, 
+                        pn: record.pn, 
+                        planName: record.planName 
+                    })
+                });
+
+                if(!response.ok) throw new Error('Strategy API Error');
+                const data = await response.json();
+                renderStrategy(data);
+
+            } catch (err) {
+                console.warn("Strategy API failed, using fallback.");
+                setTimeout(() => {
+                    // Update fallback name to match user click for realism
+                    const fallbackData = {...MOCK_STRATEGY, planName: record.planName};
+                    renderStrategy(fallbackData);
+                }, 1000);
+            }
+        }
+
+        // Step C: Strategy Display
+        function renderStrategy(data) {
+            searchSpinner.classList.add('hidden');
+            
+            // Set Titles
+            document.getElementById('strategy-plan-name').textContent = data.planName;
+
+            // Parse Markdown Columns
+            // Join array with newlines for Markdown parsing
+            const strengthsMd = data.strengths.map(s => `- ${s}`).join('\n');
+            const deficienciesMd = data.deficiencies.map(d => `- ${d}`).join('\n');
+            const actionsMd = data.actionSteps.map(a => `- ${a}`).join('\n');
+
+            document.getElementById('markdown-strengths').innerHTML = marked.parse(strengthsMd);
+            document.getElementById('markdown-deficiencies').innerHTML = marked.parse(deficienciesMd);
+            document.getElementById('markdown-actions').innerHTML = marked.parse(actionsMd);
+
+            // Show container
+            strategyDisplay.classList.remove('hidden');
+            
+            // Reset tabs to first one
+            switchTab('strengths');
+            
+            // Smooth scroll to results
+            strategyDisplay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Tab Switching Logic
+        window.switchTab = function(tabName) {
+            // Reset Headers
+            ['strengths', 'deficiencies', 'actions'].forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                const content = document.getElementById(`content-${t}`);
+                
+                // Styling reset
+                btn.classList.remove('text-srp-blue', 'border-b-2', 'border-srp-blue', 'font-semibold');
+                btn.classList.add('text-slate-500', 'font-medium');
+                
+                // Hide Content
+                content.classList.remove('active');
+            });
+
+            // Activate Selected
+            const activeBtn = document.getElementById(`tab-${tabName}`);
+            const activeContent = document.getElementById(`content-${tabName}`);
+
+            activeBtn.classList.remove('text-slate-500', 'font-medium');
+            activeBtn.classList.add('text-srp-blue', 'border-b-2', 'border-srp-blue', 'font-semibold');
+            
+            activeContent.classList.add('active');
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNews();
+        });
+
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

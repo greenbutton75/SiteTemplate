@@ -1,0 +1,7 @@
+ Create a landing page from this website template:
+ - keep all the navigation links both to the plan optimizer and the news section
+ - keep the plan optimizer tool fixed and align only the format and colors
+ - keep the news section fixed and align only the format and colors
+ - allow color/format variety in the other sections
+ - skip extracting data by visiting urls in the data
+ - write all your code in the @index.html
