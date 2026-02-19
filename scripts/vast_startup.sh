@@ -179,9 +179,12 @@ echo "[setup] webgen_template ready."
 # =============================================================================
 echo "[run] Starting vLLM server (GLM-4.7-Flash, 2 GPUs)..."
 
+VLLM_MAX_MODEL_LEN="${VLLM_MAX_MODEL_LEN:-8192}"
+VLLM_GPU_MEMORY_UTILIZATION="${VLLM_GPU_MEMORY_UTILIZATION:-0.95}"
+
 HF_HOME="$WORKSPACE/models/" nohup vllm serve zai-org/GLM-4.7-Flash \
-    --max-model-len 8192 \
-    --gpu-memory-utilization 0.95 \
+    --max-model-len "$VLLM_MAX_MODEL_LEN" \
+    --gpu-memory-utilization "$VLLM_GPU_MEMORY_UTILIZATION" \
     --tensor-parallel-size 2 \
     --disable-custom-all-reduce \
     --enforce-eager \

@@ -25,6 +25,9 @@ app.add_middleware(
 )
 
 BASE_DIR = '/workspace/'
+DEFAULT_MAX_SNAPSHOT_CHARS = 24000
+DEFAULT_CHARS_PER_TOKEN = 3.2
+MAX_SOURCES = 8
 FAIL_PATTERNS = (
     "command not found",
     "permission denied",
@@ -82,9 +85,36 @@ def save_snapshot_and_update_task(snapshot, website_dir):
         if fname not in filenames:
             filenames.append(fname)
 
-    customer_data = " - use the data in the following files to customize the website: " + ", ".join(filenames)
+    selected = filenames[:MAX_SOURCES]
+    customer_data = " - use the data in the following files to customize the website: " + ", ".join(selected)
+    if len(filenames) > MAX_SOURCES:
+        customer_data += " (if needed, you can read additional files later)"
     with open(os.path.join(website_dir, 'task.txt'), 'a') as fout:
         fout.write(customer_data)
+
+
+def normalize_snapshot(snapshot: str, website_dir: str):
+    max_chars_env = os.environ.get("SNAPSHOT_MAX_CHARS")
+    if max_chars_env:
+        max_chars = int(max_chars_env)
+    else:
+        max_len = int(os.environ.get("VLLM_MAX_MODEL_LEN", "8192"))
+        chars_per_token = float(os.environ.get("SNAPSHOT_CHARS_PER_TOKEN", DEFAULT_CHARS_PER_TOKEN))
+        max_chars = int(max_len * chars_per_token)
+
+    if len(snapshot) <= max_chars:
+        return snapshot, None
+
+    truncated = snapshot[:max_chars]
+    note = (
+        f"[NOTE] Snapshot truncated from {len(snapshot)} to {len(truncated)} chars "
+        f"(max={max_chars}). Set SNAPSHOT_MAX_CHARS or VLLM_MAX_MODEL_LEN to adjust."
+    )
+    with open(os.path.join(website_dir, "task.txt"), "a") as fout:
+        fout.write("\n\n" + note + "\n")
+    with open(os.path.join(website_dir, "snapshot_truncated.txt"), "w") as fout:
+        fout.write(note + "\n")
+    return truncated, note
 
 
 @app.post("/start")
@@ -100,7 +130,8 @@ def start(send_request: SendRequest):
 
     WEBSITE_DIR = os.path.join(BASE_DIR, website_id)
     shutil.copytree(os.path.join(BASE_DIR, "webgen_template"), WEBSITE_DIR, dirs_exist_ok=False)
-    save_snapshot_and_update_task(send_request.snapshot, WEBSITE_DIR)
+    snapshot_text, warning = normalize_snapshot(send_request.snapshot, WEBSITE_DIR)
+    save_snapshot_and_update_task(snapshot_text, WEBSITE_DIR)
 
     log_path = os.path.join(WEBSITE_DIR, "ccr.log")
     nvm_setup = (
@@ -132,7 +163,8 @@ def start(send_request: SendRequest):
         "website_id": website_id,
         "pid": proc.pid,
         "pgid": os.getpgid(proc.pid),
-        "status": "running"
+        "status": "running",
+        "warning": warning,
     }
     with open(os.path.join(WEBSITE_DIR, "process.json"), "w") as f:
         json.dump(meta, f)
@@ -184,12 +216,12 @@ async def status(website_id: str):
         meta = json.loads(await f.read())
     pid = meta.get("pid")
     if not pid:
-        return {"status": "failed"}
+        return {"status": "failed", "warning": meta.get("warning")}
     state = await process_state(pid)
     if state == "running":
-        return {"status": "running"}
+        return {"status": "running", "warning": meta.get("warning")}
     failed = await detect_failure(os.path.join(BASE_DIR, website_id))
-    return {"status": "failed" if failed else "done"}
+    return {"status": "failed" if failed else "done", "warning": meta.get("warning")}
 
 
 @app.get("/download/{website_id}")
