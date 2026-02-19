@@ -13,8 +13,13 @@ mkdir -p $LOG_DIR $WORKSPACE/zoo
 # =============================================================================
 # ПОДХВАТИТЬ ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ ИЗ VAST.AI TEMPLATE
 # =============================================================================
-# Не падаем, если переменных еще нет в окружении
-env | grep -E 'STITCH_API_KEY|HF_TOKEN' > /etc/webgen.env || true
+# Сначала пробуем вытянуть из PID 1 (Vast часто кладет env туда)
+if [ -r /proc/1/environ ]; then
+    tr '\0' '\n' </proc/1/environ | grep -E 'STITCH_API_KEY|HF_TOKEN' > /etc/webgen.env || true
+fi
+# Фоллбек: берем из текущего окружения
+env | grep -E 'STITCH_API_KEY|HF_TOKEN' >> /etc/webgen.env || true
+
 set -a
 source /etc/webgen.env 2>/dev/null || true
 set +a
