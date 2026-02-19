@@ -49,8 +49,8 @@ apt-get install -y -qq curl git build-essential adduser
 # =============================================================================
 echo "[2/7] Installing Python dependencies..."
 export PIP_BREAK_SYSTEM_PACKAGES=1
-pip install -q -U pip setuptools numpy
-pip install -q -U \
+python3 -m pip install -q -U --ignore-installed setuptools numpy
+python3 -m pip install -q -U \
     fastapi \
     uvicorn[standard] \
     aiofiles \
