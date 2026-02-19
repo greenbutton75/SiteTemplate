@@ -101,6 +101,7 @@ su dev -s /bin/bash -c '
 # 6. КОНФИГУРАЦИЯ CLAUDE CODE ROUTER
 # =============================================================================
 echo "[6/7] Configuring claude-code-router..."
+CCR_MAX_TOKENS="${CCR_MAX_TOKENS:-2048}"
 
 mkdir -p /home/dev/.claude-code-router/
 
@@ -119,6 +120,8 @@ cat > /home/dev/.claude-code-router/config.json << EOF
       "name": "local_vllm",
       "api_base_url": "http://localhost:8000/v1/chat/completions",
       "api_key": "dummy",
+      "max_tokens": ${CCR_MAX_TOKENS},
+      "max_completion_tokens": ${CCR_MAX_TOKENS},
       "models": ["glm-4.7-flash"]
     }
   ],

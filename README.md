@@ -54,6 +54,7 @@ exec /tmp/vast_startup.sh
 - `VLLM_GPU_MEMORY_UTILIZATION` (по умолчанию `0.95`)
 - `SNAPSHOT_MAX_CHARS` (жёсткий лимит длины snapshot в символах)
 - `SNAPSHOT_CHARS_PER_TOKEN` (оценка char/token, по умолчанию `2.0`; используется для авто-лимита)
+- `CCR_MAX_TOKENS` (лимит генерации в ccr; по умолчанию `2048`, чтобы не превышать контекст)
 
 **Важно:** Vast кладёт env в процесс PID 1, поэтому в `vast_startup.sh` идёт чтение из `/proc/1/environ`.
 
