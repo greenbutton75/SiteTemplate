@@ -83,12 +83,13 @@ fi
 chown -R dev:dev $WORKSPACE
 
 # Устанавливаем Node.js 24 и npm-пакеты от имени dev
-su - dev -c '
+su dev -s /bin/bash -c '
+    set -e
+    export HOME=/home/dev
     export NVM_DIR="$HOME/.nvm"
-    unset NVM_DIR
+    mkdir -p "$NVM_DIR"
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
     nvm install 24
     nvm use 24
     npm install -g @anthropic-ai/claude-code
@@ -139,9 +140,11 @@ chown -R dev:dev /home/dev/.claude-code-router/
 # =============================================================================
 echo "[7/7] Installing Stitch MCP server..."
 
-su - dev -c "
+su dev -s /bin/bash -c "
+    set -e
+    export HOME=/home/dev
     export NVM_DIR=\"\$HOME/.nvm\"
-    [ -s \"\$NVM_DIR/nvm.sh\" ] && \. \"\$NVM_DIR/nvm.sh\"
+    [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"
     claude mcp add stitch \
         --transport http \
         https://stitch.googleapis.com/mcp \
