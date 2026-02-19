@@ -50,7 +50,7 @@ apt-get install -y -qq curl git build-essential adduser
 echo "[2/7] Installing Python dependencies..."
 export PIP_BREAK_SYSTEM_PACKAGES=1
 pip install -q -U pip setuptools numpy
-pip install -q \
+pip install -q -U \
     fastapi \
     uvicorn[standard] \
     aiofiles \
@@ -156,7 +156,15 @@ echo "[setup] Cloning webgen_template from GitHub..."
 
 cd $WORKSPACE
 rm -rf webgen_template
-git clone https://github.com/greenbutton75/SiteTemplate.git webgen_template
+for i in 1 2 3; do
+    git clone https://github.com/greenbutton75/SiteTemplate.git webgen_template && break
+    echo "Git clone failed (attempt $i). Retrying in 5s..."
+    sleep 5
+done
+if [ ! -d "$WORKSPACE/webgen_template" ]; then
+    echo "ERROR: Failed to clone webgen_template."
+    exit 1
+fi
 chown -R dev:dev $WORKSPACE/webgen_template
 cp $WORKSPACE/webgen_template/webgen.py $WORKSPACE/webgen.py
 chown dev:dev $WORKSPACE/webgen.py
