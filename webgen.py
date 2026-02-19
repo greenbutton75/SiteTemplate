@@ -26,7 +26,7 @@ app.add_middleware(
 
 BASE_DIR = '/workspace/'
 DEFAULT_MAX_SNAPSHOT_CHARS = 24000
-DEFAULT_CHARS_PER_TOKEN = 3.2
+DEFAULT_CHARS_PER_TOKEN = 2.0
 MAX_SOURCES = 8
 FAIL_PATTERNS = (
     "command not found",
