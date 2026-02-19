@@ -143,8 +143,11 @@ def start(send_request: SendRequest):
         f'export ANTHROPIC_MAX_TOKENS={ccr_max_tokens} && '
         f'export ANTHROPIC_MAX_COMPLETION_TOKENS={ccr_max_tokens} && '
         f'export MAX_TOKENS={ccr_max_tokens} && '
-        f'export MAX_COMPLETION_TOKENS={ccr_max_tokens}'
+        f'export MAX_COMPLETION_TOKENS={ccr_max_tokens} && '
+        'export CLAUDE_NON_INTERACTIVE=1 && export NON_INTERACTIVE_MODE=1 && '
+        'export TERM=dumb'
     )
+    ccr_maxtoken = f'maxtoken {ccr_max_tokens}'
 
     with open(log_path, "wb") as log_file:
         proc = subprocess.Popen(
@@ -154,7 +157,7 @@ def start(send_request: SendRequest):
                 "-s",
                 "/bin/bash",
                 "-c",
-                f'{nvm_setup} && {ccr_env} && NODE_NO_WARNINGS=1 ccr code '
+                f'{nvm_setup} && {ccr_env} && NODE_NO_WARNINGS=1 ccr code {ccr_maxtoken} '
                 '--dangerously-skip-permissions '
                 '--verbose '
                 '--system-prompt-file task.txt '

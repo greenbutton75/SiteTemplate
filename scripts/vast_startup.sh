@@ -109,7 +109,7 @@ cat > /home/dev/.claude-code-router/config.json << EOF
 {
   "LOG": true,
   "API_TIMEOUT_MS": 600000,
-  "NON_INTERACTIVE_MODE": false,
+  "NON_INTERACTIVE_MODE": true,
   "PROXY_URL": "",
   "APIKEY": "",
 
