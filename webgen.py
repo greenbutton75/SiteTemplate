@@ -157,7 +157,7 @@ def start(send_request: SendRequest):
                 "-s",
                 "/bin/bash",
                 "-c",
-                f'{nvm_setup} && {ccr_env} && NODE_NO_WARNINGS=1 ccr code {ccr_maxtoken} '
+                f'{nvm_setup} && {ccr_env} && NODE_NO_WARNINGS=1 ccr {ccr_maxtoken} code '
                 '--dangerously-skip-permissions '
                 '--verbose '
                 '--system-prompt-file task.txt '
