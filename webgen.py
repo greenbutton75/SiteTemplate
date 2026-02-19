@@ -25,6 +25,13 @@ app.add_middleware(
 )
 
 BASE_DIR = '/workspace/'
+FAIL_PATTERNS = (
+    "command not found",
+    "permission denied",
+    "traceback",
+    "error:",
+    "no such file or directory",
+)
 
 
 def zip_directory_to_bytes(dir_path: str) -> io.BytesIO:
@@ -153,6 +160,21 @@ async def process_state(pid: int) -> str:
         return "dead"
 
 
+async def detect_failure(website_dir: str) -> bool:
+    log_path = os.path.join(website_dir, "ccr.log")
+    if not await aiofiles.os.path.exists(log_path):
+        return True
+    try:
+        async with aiofiles.open(log_path, "rb") as f:
+            data = await f.read()
+    except OSError:
+        return True
+    if not data:
+        return True
+    text = data[-20000:].decode(errors="ignore").lower()
+    return any(p in text for p in FAIL_PATTERNS)
+
+
 @app.get("/status/{website_id}")
 async def status(website_id: str):
     meta_path = os.path.join(BASE_DIR, website_id, "process.json")
@@ -164,7 +186,10 @@ async def status(website_id: str):
     if not pid:
         return {"status": "failed"}
     state = await process_state(pid)
-    return {"status": "running" if state == "running" else "done"}
+    if state == "running":
+        return {"status": "running"}
+    failed = await detect_failure(os.path.join(BASE_DIR, website_id))
+    return {"status": "failed" if failed else "done"}
 
 
 @app.get("/download/{website_id}")
@@ -181,6 +206,9 @@ async def download(website_id: str):
     state = await process_state(pid)
     if state == "running":
         raise HTTPException(status_code=409, detail="Job still running")
+    failed = await detect_failure(website_dir)
+    if failed:
+        raise HTTPException(status_code=409, detail="Job failed")
     zip_bytes = await zip_directory_async(website_dir)
     return StreamingResponse(
         zip_bytes,
